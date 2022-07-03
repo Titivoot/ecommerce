@@ -1,7 +1,7 @@
 <template>
-    <div class="container-fluid">
+    <div id="Navbar" class="container-fluid">
         <div class="row">
-            <div class="col-md-12 my-2">
+            <div class="col-md-12">
                 <div class="d-flex justify-content-end">
                     <NuxtLink class="header-link" activeClass="active" to="/login">เข้าสู่ระบบ</NuxtLink>
                     <span class="mx-2">|</span>
@@ -21,12 +21,18 @@
                                     <NuxtLink class="nav-link" activeClass="active" to="/">หน้าแรก</NuxtLink>
                                 </li>
                                 <li class="nav-item">
+                                    <NuxtLink class="nav-link" activeClass="active" to="/product">สินค้า</NuxtLink>
+                                </li>
+                                <li class="nav-item">
+                                    <NuxtLink class="nav-link" activeClass="active" to="/about">เกี่ยวกับเรา</NuxtLink>
+                                </li>
+                                <li class="nav-item">
                                     <NuxtLink class="nav-link" activeClass="active" to="/contact">ติดต่อเรา</NuxtLink>
                                 </li>
                             </ul>
                             <form class="d-flex">
-                                <input class="form-control me-2" v-model="searchText" type="search" placeholder="Search" aria-label="Search">
-                                <button class="btn btn-outline-success" @click.prevent="SearchData()">Search</button>
+                                <input class="form-control me-2" v-model="searchText" type="search" placeholder="สินค้าที่ต้องการค้นหา" aria-label="สินค้าที่ต้องการค้นหา">
+                                <button class="btn btn-outline-success" @click.prevent="SearchData()">ค้นหา</button>
                             </form>
                         </div>
                     </div>
@@ -46,15 +52,28 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+#Navbar {
+    font-family: Prompt;
+    font-weight: 300;
+
+    & .nav-link.active {
+        font-weight: 600;
+    }
+}
+
 .header-link {
     color: rgba(0, 0, 0, .55);
     text-decoration: none;
+
+    &:hover {
+        color: rgba(0, 0, 0, .7);
+    }
+    &.active {
+        color: rgba(0, 0, 0, .9);
+        font-weight: 600;
+    }
 }
-.header-link:hover {
-    color: rgba(0, 0, 0, .7);
-}
-.active {
-    color: rgba(0, 0, 0, .9);
-}
+
+
 </style>
