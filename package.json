@@ -11,12 +11,15 @@
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@nuxtjs/tailwindcss": "^6.8.0",
-    "@types/express": "^4.17.17",
+    "@types/bcrypt": "^5.0.0",
     "nuxt": "^3.7.0",
     "prisma": "^5.2.0"
   },
   "dependencies": {
     "@prisma/client": "^5.2.0",
-    "express": "^4.18.2"
+    "@vee-validate/zod": "^4.11.3",
+    "bcrypt": "^5.1.1",
+    "vee-validate": "^4.11.3",
+    "zod": "^3.22.2"
   }
 }
