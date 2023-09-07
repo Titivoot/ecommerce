@@ -13,146 +13,144 @@ datasource db {
 // db design by https://fabric.inc/blog/commerce/ecommerce-database-design-example
 
 model User {
-  id Int @id @default(autoincrement())
-  username String
-  password String
-  first_name String
-  last_name String
-  telephone String
-  created_at DateTime @default(now())
-  modified_at DateTime @updatedAt
-  addresses UserAddress[]
-  payments UserPayment[]
-  orders OrderDetail?
+  id               Int              @id @default(autoincrement())
+  username         String
+  password         String
+  first_name       String
+  last_name        String
+  telephone        String
+  created_at       DateTime         @default(now())
+  modified_at      DateTime         @updatedAt
+  addresses        UserAddress[]
+  payments         UserPayment[]
+  orders           OrderDetail?
   shopping_session ShoppingSession?
 }
 
 model UserAddress {
-  id Int @id @default(autoincrement())
-  user_id Int
+  id            Int     @id @default(autoincrement())
+  user_id       Int
   address_line1 String
   address_line2 String?
-  city String
-  postal_code String
-  country String
-  telephone String
-  user User @relation(fields: [user_id], references: [id])
+  city          String
+  postal_code   String
+  country       String
+  telephone     String
+  user          User    @relation(fields: [user_id], references: [id])
 }
 
 model UserPayment {
-  id Int @id @default(autoincrement())
-  user_id Int
+  id           Int      @id @default(autoincrement())
+  user_id      Int
   payment_type String
-  provider String
-  account_no Int
-  expiry DateTime
-  user User @relation(fields: [user_id], references: [id])
+  provider     String
+  account_no   Int
+  expiry       DateTime
+  user         User     @relation(fields: [user_id], references: [id])
 }
 
 model Product {
-  id Int @id @default(autoincrement())
-  name String
-  desc String
-  sku String
-  category_id Int
-  inventory_id Int @unique
-  price Decimal
-  discount_id Int
-  cart_item CartItem?
-  order_item OrderItem?
-  create_at DateTime @default(now())
-  modified_at DateTime @updatedAt
-  deleted_at DateTime?
-  category ProductCategory @relation(fields: [category_id], references: [id])
-  inventory ProductInventory @relation(fields: [inventory_id], references: [id])
-  discount Discount @relation(fields: [discount_id], references: [id])
+  id           Int              @id @default(autoincrement())
+  name         String
+  desc         String
+  sku          String
+  category_id  Int
+  inventory_id Int              @unique
+  price        Decimal
+  discount_id  Int
+  cart_item    CartItem?
+  order_item   OrderItem?
+  create_at    DateTime         @default(now())
+  modified_at  DateTime         @updatedAt
+  deleted_at   DateTime?
+  category     ProductCategory  @relation(fields: [category_id], references: [id])
+  inventory    ProductInventory @relation(fields: [inventory_id], references: [id])
+  discount     Discount         @relation(fields: [discount_id], references: [id])
 }
 
 model ProductCategory {
-  id Int @id @default(autoincrement())
-  name String
-  desc String
-  create_at DateTime @default(now())
-  modified_at DateTime @updatedAt
-  deleted_at DateTime?
-  products Product[]
+  id          Int       @id @default(autoincrement())
+  name        String
+  desc        String
+  create_at   DateTime  @default(now())
+  modified_at DateTime  @updatedAt
+  deleted_at  DateTime?
+  products    Product[]
 }
 
 model ProductInventory {
-  id Int @id @default(autoincrement())
-  products_id Int @unique
-  quantity Int
-  create_at DateTime @default(now())
-  modified_at DateTime @updatedAt
-  deleted_at DateTime?
-  product Product?
+  id          Int       @id @default(autoincrement())
+  products_id Int       @unique
+  quantity    Int
+  create_at   DateTime  @default(now())
+  modified_at DateTime  @updatedAt
+  deleted_at  DateTime?
+  product     Product?
 }
 
 model Discount {
-  id Int @id @default(autoincrement())
-  name String
-  desc String
+  id               Int       @id @default(autoincrement())
+  name             String
+  desc             String
   discount_percent Decimal
-  active Boolean
-  create_at DateTime @default(now())
-  modified_at DateTime @updatedAt
-  deleted_at DateTime?
-  products Product[]
+  active           Boolean
+  create_at        DateTime  @default(now())
+  modified_at      DateTime  @updatedAt
+  deleted_at       DateTime?
+  products         Product[]
 }
 
 model ShoppingSession {
-  id Int @id @default(autoincrement())
-  user_id Int @unique
-  total Decimal
-  create_at DateTime @default(now())
-  modified_at DateTime @updatedAt
-  user User @relation(fields: [user_id], references: [id])
-  items CartItem[]
+  id          Int        @id @default(autoincrement())
+  user_id     Int        @unique
+  total       Decimal
+  create_at   DateTime   @default(now())
+  modified_at DateTime   @updatedAt
+  user        User       @relation(fields: [user_id], references: [id])
+  items       CartItem[]
 }
 
 model CartItem {
-  id Int @id @default(autoincrement())
-  session_id Int
-  product_id Int @unique
-  quantity Int
-  create_at DateTime @default(now())
-  modified_at DateTime @updatedAt
+  id               Int             @id @default(autoincrement())
+  session_id       Int
+  product_id       Int             @unique
+  quantity         Int
+  create_at        DateTime        @default(now())
+  modified_at      DateTime        @updatedAt
   shopping_session ShoppingSession @relation(fields: [session_id], references: [id])
-  product Product @relation(fields: [product_id], references: [id])
+  product          Product         @relation(fields: [product_id], references: [id])
 }
 
 model OrderDetail {
-  id Int @id @default(autoincrement())
-  user_id Int @unique
-  total Decimal
-  payment_id Int @unique
-  create_at DateTime @default(now())
-  modified_at DateTime @updatedAt
-  order_items OrderItem[]
-  user User @relation(fields: [user_id], references: [id])
+  id             Int           @id @default(autoincrement())
+  user_id        Int           @unique
+  total          Decimal
+  payment_id     Int           @unique
+  create_at      DateTime      @default(now())
+  modified_at    DateTime      @updatedAt
+  order_items    OrderItem[]
+  user           User          @relation(fields: [user_id], references: [id])
   payment_detail PaymentDetail @relation(fields: [payment_id], references: [id])
-
 }
 
 model PaymentDetail {
-  id Int @id @default(autoincrement())
-  order_id Int
-  amount Int
-  provider Int
-  status String
-  create_at DateTime @default(now())
-  modified_at DateTime @updatedAt
+  id           Int          @id @default(autoincrement())
+  order_id     Int
+  amount       Int
+  provider     Int
+  status       String
+  create_at    DateTime     @default(now())
+  modified_at  DateTime     @updatedAt
   order_detail OrderDetail?
 }
 
 model OrderItem {
-  id Int @id @default(autoincrement())
-  order_id Int 
-  product_id Int @unique
-  quantity Int
-  create_at DateTime @default(now())
-  modified_at DateTime @updatedAt
-  product Product @relation(fields: [product_id], references: [id])
+  id           Int         @id @default(autoincrement())
+  order_id     Int
+  product_id   Int         @unique
+  quantity     Int
+  create_at    DateTime    @default(now())
+  modified_at  DateTime    @updatedAt
+  product      Product     @relation(fields: [product_id], references: [id])
   order_detail OrderDetail @relation(fields: [order_id], references: [id])
 }
-
